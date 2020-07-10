@@ -13,7 +13,7 @@ export default class MyCarousel extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/api/images")
+      .get(`http://localhost:5000/api/images/${this.props.tag}`)
       .then((res) => {
         if (res.data.length > 0) {
           this.setState({
@@ -22,6 +22,21 @@ export default class MyCarousel extends Component {
         }
       })
       .catch((err) => console.log("Error: " + err));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.tag !== prevProps.tag) {
+      axios
+        .get(`http://localhost:5000/api/images/${this.props.tag}`)
+        .then((res) => {
+          if (res.data.length > 0) {
+            this.setState({
+              images: res.data,
+            });
+          }
+        })
+        .catch((err) => console.log("Error: " + err));
+    }
   }
 
   imageUrlFormat = (imageObj) => {
@@ -50,12 +65,14 @@ export default class MyCarousel extends Component {
           data-target="#carouselExampleIndicators"
           data-slide-to={index}
           className={index === 0 ? "active" : ""}
+          key={index}
         ></li>
       );
     });
   };
 
   render() {
+    console.log("render" + this.props.tag);
     return (
       <div
         id="carouselExampleIndicators"

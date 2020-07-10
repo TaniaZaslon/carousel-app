@@ -2,8 +2,8 @@ const axios = require("axios");
 const API_KEY = "d21d14cb06d3670367fd27708f0b7f5a";
 
 class Images {
-  static retriveResentImages(callback) {
-    const tags = "cats";
+  static retriveResentImages(tag, callback) {
+    const tags = tag;
     const size = "url_l";
     const perPage = 10;
     const pageMax = 4000 / perPage;
